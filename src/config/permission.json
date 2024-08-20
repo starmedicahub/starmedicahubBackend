@@ -1,0 +1,72 @@
+[
+  {
+    "roles": [
+      "ADMIN"
+    ],
+    "method": {
+      "get": [
+        "/user",
+        "/product",
+        "/cart",
+        "/doctor",
+        "/product_filed",
+        "/user/",
+        "/product/",
+        "/cart/",
+        "/doctor/",
+        "/product_filed/"
+      ],
+      "post": [
+        "/user",
+        "/product",
+        "/cart",
+        "/doctor",
+        "/product_filed"
+      ],
+      "put": [
+        "/user/:id",
+        "/product/:id",
+        "/cart/:id",
+        "/doctor/:id",
+        "/product_filed/:id"
+      ],
+      "patch": [],
+      "delete": [
+        "/user/:id",
+        "/product/:id",
+        "/cart/:id",
+        "/doctor/:id",
+        "/product_filed/:id"
+      ]
+    }
+  },
+  {
+    "roles": [
+      "USER"
+    ],
+    "method": {
+      "get": [
+        "/user",
+        "/product",
+        "/cart",
+        "/doctor",
+        "/product_filed",
+        "/user/",
+        "/product/",
+        "/cart/",
+        "/doctor/",
+        "/product_filed/"
+      ],
+      "post": [
+        "/cart/"
+      ],
+      "put": [
+        "/cart/:id"
+      ],
+      "patch": [],
+      "delete": [
+        "/cart/:id"
+      ]
+    }
+  }
+]

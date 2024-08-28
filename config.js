@@ -88,7 +88,7 @@ app.use(routeApis);
 
 // Root route of express app
 app.get("/", (req, res) => {
-  res.send("Welcome to greenLine EV  Bikes login");
+  res.send("Welcome to Starmedicahub");
 });
 
 // Catch 404 and forward to error handler

@@ -11,13 +11,14 @@ const generateJwtToken = async (payload, tokenExpire) => {
             process.env.TOKEN_SECRETE_KEY,
             { expiresIn: process.env.TOKEN_EXPIRE_HOURS }
         );
-        //generate refresh token
-        let refreshToken = jwt.sign(
-            payload,
-            process.env.REFRESH_TOKEN_SECRETE_KEY,
-            { expiresIn: process.env.REFRESH_TOKEN_EXPIRE_HOURS }
-        );
-        resolve({ token: token, refreshToken: refreshToken });
+        // //generate refresh token
+        // let refreshToken = jwt.sign(
+        //     payload,
+        //     process.env.REFRESH_TOKEN_SECRETE_KEY,
+        //     { expiresIn: process.env.REFRESH_TOKEN_EXPIRE_HOURS }
+        // );
+        // Remove the refush the jwt Token
+        resolve({ token: token }); // 
     })
 }
 

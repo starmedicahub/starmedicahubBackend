@@ -72,12 +72,12 @@ const postUserDetails = async (bodyObj) => {
   });
 };
 
-const createOtplogs = async (contactNumber, secret) => {
+const createOtplogs = async (email, secret) => {
   return new Promise(async (resolve, reject) => {
     try {
       const otplogs = new OTP({
         _id: new mongoose.Types.ObjectId(),
-        mobileNo: contactNumber,
+        email: email,
         secret: secret,
       });
       otplogs

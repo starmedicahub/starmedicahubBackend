@@ -56,7 +56,7 @@ const createOtplogs = async (contactNumber,secret) => {
         try {
             const otplogs = new OTP({
                 _id: new mongoose.Types.ObjectId(),
-                mobileNo: contactNumber,
+                mail: contactNumber,
                 secret: secret
             })
             otplogs.save()

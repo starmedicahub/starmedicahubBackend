@@ -34,10 +34,10 @@ const GenerateJwtToken = async (req, res, next) => {
  */
 const sendOtp = async (req, res) => {
     try {
-        var contactNumber = req.body.phoneNo;
+        var contactemail = req.body.email;
         await LoginService.sendOtp(
-            contactNumber
-        ).then(response => {
+            contactemail
+        ).then(res => {
             res.status(201).send({ "message": "OTP send successfully." })
         }).catch(error => {
             res.status(400).send({ "message": error })
@@ -54,10 +54,10 @@ const sendOtp = async (req, res) => {
  */
 const verifyOtp = async (req, res) => {
     try {
-        const contactNumber = req.body.phoneNo;
+        const contactemail = req.body.email;
         const otp = req.body.otp;
         await LoginService.verifyOtp(
-            contactNumber, otp
+            contactemail, otp
         ).then(response => {
             res.status(201).send(response)
         }).catch(error => {

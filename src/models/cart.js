@@ -2,14 +2,14 @@ const mongoose = require('mongoose');
 
 const cartItemSchema = new mongoose.Schema({
   product_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Product', required: true },
-  qty: { type: Number, required: true },
+  qty: { type: Number, required: true , default: 1 },
   price: { type: Number, required: true }
 });
 
 const cartSchema = new mongoose.Schema({
   items: [cartItemSchema],
   user_id: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-  quantity: {type: String , require , default: 1 },
+  // quantity: {type: String , require , default: 1 },
   gst: { type: Number, required: true },
   total: { type: Number, required: true },
   address: { type: String, required: true },

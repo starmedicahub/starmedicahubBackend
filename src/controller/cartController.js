@@ -27,8 +27,6 @@ const getCartById = async (req, res) => {
   }
 };
 
-
-
 const createCart = async (cartData) => {
   const cart = new Cart(cartData);
   const savedCart = await cart.save();

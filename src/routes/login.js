@@ -56,14 +56,14 @@ loginController.GenerateJwtToken
 /*Send otp to registered user */
 
 router.post('/sendOTP',
-    loginValidation.validateSendOtp,
+    // loginValidation.validateSendOtp,
     loginController.sendOtp
 )
 
 
 /* verify otp */
 router.post('/verifyOTP',
-   loginValidation.validateVerifydOtp,
+//    loginValidation.validateVerifydOtp,
     loginController.verifyOtp
 )
 

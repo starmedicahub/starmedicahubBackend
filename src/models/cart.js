@@ -9,11 +9,8 @@ const cartItemSchema = new mongoose.Schema({
 const cartSchema = new mongoose.Schema({
   items: [cartItemSchema],
   user_id: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-  // quantity: {type: String , require , default: 1 },
   gst: { type: Number, required: true },
   total: { type: Number, required: true },
-  address: { type: String, required: true },
-  phoneNumber: { type: String, required: true },
   name: { type: String, required: true }
 });
 

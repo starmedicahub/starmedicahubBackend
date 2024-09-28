@@ -14,7 +14,9 @@
         "/product/",
         "/cart/",
         "/doctor/",
-        "/product_filed/"
+        "/product_filed/",
+        "/orderhistory",
+        "/orderhistory/user"
       ],
       "post": [
         "/user",
@@ -55,7 +57,8 @@
         "/product/",
         "/cart/",
         "/doctor/",
-        "/product_filed/"
+        "/product_filed/",
+        "/orderhistory/user"
       ],
       "post": [
         "/cart/"

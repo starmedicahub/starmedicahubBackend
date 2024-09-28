@@ -31,6 +31,6 @@ router.use("/product_filed", productRoutes);
 router.use("/cart", cart);
 
 //orderHistory
-router.use("/Oderhistory", orderHistory)
+router.use("/orderhistory", orderHistory)
 
 module.exports = router;

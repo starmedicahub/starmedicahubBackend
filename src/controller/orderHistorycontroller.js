@@ -13,8 +13,9 @@ const getAllOrderHistories = async (req, res) => {
 // Function to fetch a specific order history by ID
 const getOrderHistoryById = async (req, res) => {
     try {
-        const { orderId } = req.params;
-        const orderHistory = await orderHistoryService.getOrderHistoryById(orderId);
+        const userId = res.locals.userId
+        console.log(userId)
+        const orderHistory = await orderHistoryService.getOrderHistoryById(userId);
         if (!orderHistory) {
             return res.status(404).json({ message: 'Order not found' });
         }

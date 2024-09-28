@@ -1,5 +1,6 @@
 const cartService = require('../service/cartService');
 const OrderHistory = require('../models/orderHistory');
+const Cart = require('../models/cart');
 
 const getCartById = async (req, res) => {
   const cartId = req.query.cartId;
@@ -27,30 +28,34 @@ const getCartById = async (req, res) => {
   }
 };
 
-const createCart = async (cartData) => {
-  const cart = new Cart(cartData);
-  const savedCart = await cart.save();
+const createCart = async (req, res) => {
+  try {
+    const cartData = req.body;
+    const cart = new Cart(cartData);
+    const savedCart = await cart.save();
+    const userId = res.locals.userId
+    let orderHistory = await OrderHistory.findOne({ user: userId });
 
-  // Check if an OrderHistory exists for the given user
-  let orderHistory = await OrderHistory.findOne({ user: savedCart.user_id });
+console.log("userId", userId)
+console.log("orderHistory", orderHistory)
 
-  if (orderHistory) {
-    // If it exists, push the new cart ID to the cart array
-    orderHistory.cart.push(savedCart._id);
-  } else {
-    // If it doesn't exist, create a new OrderHistory entry
-    orderHistory = new OrderHistory({
-      user: savedCart.user_id, // Link user ID
-      cart: [savedCart._id] // Link cart ID
-    });
+    if (orderHistory) {
+      orderHistory.cart.push(savedCart._id);
+    } else {
+      orderHistory = new OrderHistory({
+        user: userId,
+        cart: [savedCart._id],
+      });
+    }
+
+    await orderHistory.save();
+
+    res.status(201).json(savedCart);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "An error occurred while creating the cart" });
   }
-
-  // Save the order history
-  await orderHistory.save();
-
-  return savedCart;
 };
-
 
 const updateCart = async (req, res) => {
   try {

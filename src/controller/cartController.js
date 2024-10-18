@@ -34,10 +34,11 @@ const createCart = async (req, res) => {
     const cart = new Cart(cartData);
     const savedCart = await cart.save();
     const userId = res.locals.userId
+    
     let orderHistory = await OrderHistory.findOne({ user: userId });
 
-console.log("userId", userId)
-console.log("orderHistory", orderHistory)
+  console.log("userId", userId)
+  console.log("orderHistory", orderHistory)
 
     if (orderHistory) {
       orderHistory.cart.push(savedCart._id);

@@ -1,3 +1,4 @@
+// models/orderHistory.js
 const mongoose = require("mongoose");
 
 const orderHistorySchema = new mongoose.Schema({

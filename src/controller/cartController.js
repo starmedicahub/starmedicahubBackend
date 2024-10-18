@@ -33,6 +33,7 @@ const createCart = async (req, res) => {
     const cartData = req.body;
     const cart = new Cart(cartData);
     const savedCart = await cart.save();
+    
     const userId = res.locals.userId
     
     let orderHistory = await OrderHistory.findOne({ user: userId });

@@ -61,7 +61,7 @@
         "/orderhistory/user"
       ],
       "post": [
-        "/cart/"
+        "/cart"
       ],
       "put": [
         "/cart/:id"

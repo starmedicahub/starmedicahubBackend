@@ -33,15 +33,12 @@ const loginValidation = async (req, res, next) => {
       let userId_exists = await userHelper.getUserDetails(body.email).catch((err) => {
         console.log(err);
       });
-      console.log("11111111111111111111",userId_exists);
       if (Object.keys(userId_exists).length > 0) {
         //compare passwords
-        console.log("sdjfgsk",body.password, userId_exists.hashPass)
         const password = await loginHelper.comparePasswordHash(body.password, userId_exists.hashPass).catch((err) => {
           console.log(err);
           return err;
         });
-        console.log("password",password);
         if(userId_exists.status === 'INACTIVE'){
           return res.status(400).send({ "message": "user does not exist" }) 
         }

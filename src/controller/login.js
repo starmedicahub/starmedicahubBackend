@@ -19,7 +19,6 @@ const GenerateJwtToken = async (req, res, next) => {
         userId: userId,
         role:role
     };
-    console.log(userObj);
     await jwtHelper.generateJwtToken(
         userObj, tokenExpire
     ).then(response => {

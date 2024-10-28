@@ -12,7 +12,7 @@ const postDetails= async (bodyObj) => {
                 length: 8,
                 charset: 'alphabetic'
             });
-            console.log("password",password)
+
             bcrypt.genSalt(parseInt(process.env.salt_rounds), async (error, salt) => {
                 bcrypt.hash(password, salt, async (error, hash) => {
                     const user = new User({

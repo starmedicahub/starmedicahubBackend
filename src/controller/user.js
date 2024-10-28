@@ -9,8 +9,6 @@ const userService = require("../service/user");
 const postUser = async (req, res, next) => {
   const bodyObj = req.body;
   const empId = res.locals.userId;
-  console.log(req.body);
-
   if (req.files) {
     bodyObj.documents = {
       photo: req.files["photo"] ? req.files["photo"][0].filename : "",

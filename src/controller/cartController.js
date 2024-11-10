@@ -1,5 +1,5 @@
 const cartService = require('../service/cartService');
-const OrderHistory = require('../models/orderHistory');
+// const OrderHistory = require('../models/orderHistory');
 const Cart = require('../models/cart');
 
 const getCartById = async (req, res) => {

@@ -1,5 +1,4 @@
 const cartService = require('../service/cartService');
-// const OrderHistory = require('../models/orderHistory');
 const Cart = require('../models/cart');
 
 const getCartById = async (req, res) => {
@@ -30,34 +29,24 @@ const getCartById = async (req, res) => {
 
 const createCart = async (req, res) => {
   try {
+    // Get cart data from request body
     const cartData = req.body;
+
+    // Create a new Cart instance with the provided data
     const cart = new Cart(cartData);
+
+    // Save the cart to the database
     const savedCart = await cart.save();
-    
-    const userId = res.locals.userId
-    
-    let orderHistory = await OrderHistory.findOne({ user: userId });
 
-  console.log("userId", userId)
-  console.log("orderHistory", orderHistory)
-
-    if (orderHistory) {
-      orderHistory.cart.push(savedCart._id);
-    } else {
-      orderHistory = new OrderHistory({
-        user: userId,
-        cart: [savedCart._id],
-      });
-    }
-
-    await orderHistory.save();
-
+    // Respond with the created cart and status 201 (Created)
     res.status(201).json(savedCart);
   } catch (error) {
     console.error(error);
+    // Respond with a 500 status and error message if an error occurs
     res.status(500).json({ message: "An error occurred while creating the cart" });
   }
 };
+
 
 const updateCart = async (req, res) => {
   try {

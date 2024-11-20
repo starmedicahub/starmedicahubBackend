@@ -58,10 +58,12 @@
         "/cart/",
         "/doctor/",
         "/product_filed/",
-        "/orderhistory/user"
+        "/orderhistory/getOrderHistory"
+     
       ],
       "post": [
-        "/cart"
+        "/cart",
+         "/orderhistory/createorderhistory"
       ],
       "put": [
         "/cart/:id"

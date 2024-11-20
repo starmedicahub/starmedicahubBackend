@@ -1,12 +1,9 @@
-// const express = require('express');
-// const router = express.Router();
-// const orderHistoryController = require('../controller/orderHistorycontroller');
-// const jwtHelper = require("../utils/jwt");
+const express = require('express');
+const orderHistoryController = require('../controller/orderHistorycontroller');
+const router = express.Router();
+const jwtHelper = require("../utils/jwt");
 
-// // Route to get all order histories
-// router.get('/', orderHistoryController.getAllOrderHistories);
+router.post('/createorderhistory', jwtHelper.verifyJwtToken, orderHistoryController.createOrderHistory);
+router.get('/getOrderHistory', jwtHelper.verifyJwtToken, orderHistoryController.getOrderHistoryByUserId);
 
-// // Route to get a specific order history by order ID
-// router.get('/user', jwtHelper.verifyJwtToken ,orderHistoryController.getOrderHistoryById);
-
-// module.exports = router;
+module.exports = router;

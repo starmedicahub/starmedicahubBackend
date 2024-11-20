@@ -1,20 +1,34 @@
-// // const OrderHistory = require("../models/orderHistory");
+const OrderHistory = require('../models/orderHistory');
 
-// class OrderHistoryService {
-//   // Fetch all order histories
-//   async getAllOrderHistories() {
-//     return await OrderHistory.find().populate("user").populate("cart");
-//   }
+const createOrderHistory = async (userId, cartIds) => {
+  try {
+    const orderHistory = new OrderHistory({
+      user: userId,
+      order: cartIds,
+      createdAt: new Date(),
+    });
+    await orderHistory.save();
+    return orderHistory;
+  } catch (error) {
+    throw new Error('Error saving order history: ' + error.message);
+  }
+};
+const getOrderHistoryByUserId = async (userId) => {
+  try {
+    const orderHistory = await OrderHistory.findOne({ user: userId }).populate({
+      path: 'order',
+      populate: {
+        path: 'items.product_id',
+      },
+    });
 
-//   // Fetch a specific order history by order ID
-//   async getOrderHistoryById(userId) {
-//     let orderHistory = await OrderHistory.findOne({ user: userId });
-//     console.log(userId)
-//     console.log(orderHistory)
-//     return await OrderHistory.findOne({ user : userId })
-//       .populate("user")
-//       .populate("cart");
-//   }
-// }
+    return orderHistory;
+  } catch (error) {
+    throw new Error('Error fetching order history: ' + error.message);
+  }
+};
 
-// module.exports = new OrderHistoryService();
+module.exports = {
+  createOrderHistory,
+  getOrderHistoryByUserId
+};

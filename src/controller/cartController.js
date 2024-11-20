@@ -1,24 +1,26 @@
 const cartService = require('../service/cartService');
 const Cart = require('../models/cart');
 
+
 const getCartById = async (req, res) => {
   const cartId = req.query.cartId;
   const fromDate = req.query.fromDate;
   const toDate = req.query.toDate;
   const search = req.query.search || "";
+  const userId = req.query.userId;
 
   try {
     let carts;
-    if (cartId) {
-      // Fetch a specific cart by ID
-      carts = await cartService.getCartById(cartId, fromDate, toDate, search);
+    if (cartId || userId) {
+      // Fetch a specific cart by cartId or userId
+      carts = await cartService.getCartById(cartId, fromDate, toDate, search, userId);
       if (carts) {
         res.status(200).json(carts);
       } else {
         res.status(404).json({ message: 'Cart not found' });
       }
     } else {
-      // Fetch all carts
+      // Fetch all carts without a specific cartId or userId
       carts = await cartService.getAllCarts(fromDate, toDate, search);
       res.status(200).json(carts);
     }
@@ -26,6 +28,7 @@ const getCartById = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
 
 const createCart = async (req, res) => {
   try {

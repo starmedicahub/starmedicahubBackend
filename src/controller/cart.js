@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const Cart = require('../models/cart');
-const Order = require('../models/order');
+const Order = require('../models/OrderSchema');
 const Product = require('../models/product'); // Assuming a Product model exists
 
 // Add item to cart

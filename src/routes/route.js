@@ -7,7 +7,7 @@ const productCategoryRoutes = require("./productCategoryRoutes");
 const doctorCategoryRoutes = require("./doctorCategoryRoutes");
 const productRoutes = require("./productRoutes");
 const cart = require("./cartRoutes");
-const orderHistory =require("./orderHistory")
+
 
 //user
 router.use("/user", userModule);
@@ -30,7 +30,6 @@ router.use("/product_filed", productRoutes);
 //cart Routes
 router.use("/cart", cart);
 
-// orderHistory
-router.use("/orderhistory", orderHistory)
+
 
 module.exports = router;

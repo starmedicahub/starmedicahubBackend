@@ -12,11 +12,8 @@
         "/product_filed",
         "/user/",
         "/product/",
-        "/cart/",
         "/doctor/",
-        "/product_filed/",
-        "/orderhistory",
-        "/orderhistory/user"
+        "/product_filed/"
       ],
       "post": [
         "/user",
@@ -58,19 +55,19 @@
         "/cart/",
         "/doctor/",
         "/product_filed/",
-        "/orderhistory/getOrderHistory"
-     
+        "/orderhistory/getOrderHistory",
+        "/cart/orders"
       ],
       "post": [
-        "/cart",
-         "/orderhistory/createorderhistory"
+      "/cart/add",
+      "/cart/checkout"
       ],
       "put": [
         "/cart/:id"
       ],
       "patch": [],
       "delete": [
-        "/cart/:id"
+        "/cart/remove/:productId"
       ]
     }
   }

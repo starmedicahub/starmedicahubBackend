@@ -6,6 +6,7 @@ const orderSchema = new mongoose.Schema({
   total: { type: Number, required: true },
   gst: { type: Number, required: true },
   status: { type: String, default: 'CONFIRMED' },
+  items: [],
   createdAt: { type: Date, default: Date.now },
 });
 

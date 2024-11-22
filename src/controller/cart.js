@@ -1,52 +1,56 @@
-const mongoose = require('mongoose');
-const Cart = require('../models/cart');
-const Order = require('../models/OrderSchema');
-const Product = require('../models/product'); 
+const mongoose = require("mongoose");
+const Cart = require("../models/cart");
+const Order = require("../models/OrderSchema");
+const Product = require("../models/product");
 
 // Add item to cart
 const addItemToCart = async (req, res) => {
   try {
-      const userId = res.locals.userId; 
-      const { productId, qty } = req.body;
+    const userId = res.locals.userId;
+    const { productId, qty } = req.body;
 
-      if (!productId || !qty || qty <= 0) {
-          return res.status(400).json({ error: "Invalid product or quantity" });
-      }
+    if (!productId || !qty || qty <= 0) {
+      return res.status(400).json({ error: "Invalid product or quantity" });
+    }
 
-      const product = await Product.findById(productId);
-      if (!product) {
-          return res.status(404).json({ error: "Product not found" });
-      }
+    const product = await Product.findById(productId);
+    if (!product) {
+      return res.status(404).json({ error: "Product not found" });
+    }
 
-      if (qty > product.stock) {
-          return res.status(400).json({ error: "Insufficient stock" });
-      }
+    if (qty > product.stock) {
+      return res.status(400).json({ error: "Insufficient stock" });
+    }
 
-      let cart = await Cart.findOne({ user_id: userId });
+    let cart = await Cart.findOne({ user_id: userId });
 
-      if (!cart) {
-          // Create a new cart
-          cart = new Cart({
-              user_id: userId,
-              items: [{ product_id: productId, qty, price: product.mrp }]
-          });
+    if (!cart) {
+      // Create a new cart
+      cart = new Cart({
+        user_id: userId,
+        items: [{ product_id: productId, qty, price: product.mrp }],
+      });
+    } else {
+      // Update existing cart
+      const itemIndex = cart.items.findIndex(
+        (item) => item.product_id.toString() === productId
+      );
+
+      if (itemIndex > -1) {
+        // Update quantity of existing item
+        cart.items[itemIndex].qty += qty;
       } else {
-          // Update existing cart
-          const itemIndex = cart.items.findIndex((item) => item.product_id.toString() === productId);
-
-          if (itemIndex > -1) {
-              // Update quantity of existing item
-              cart.items[itemIndex].qty += qty;
-          } else {
-              // Add new item to cart
-              cart.items.push({ product_id: productId, qty, price: product.mrp });
-          }
+        // Add new item to cart
+        cart.items.push({ product_id: productId, qty, price: product.mrp });
       }
+    }
 
-      await cart.save();
-      res.status(200).json({ message: "Item added to cart", cart });
+    await cart.save();
+    res.status(200).json({ message: "Item added to cart", cart });
   } catch (error) {
-      res.status(500).json({ error: "Internal Server Error", details: error.message });
+    res
+      .status(500)
+      .json({ error: "Internal Server Error", details: error.message });
   }
 };
 // Remove item from cart
@@ -79,10 +83,11 @@ const removeItemFromCart = async (req, res) => {
     await cart.save(); // Save the updated cart
     res.status(200).json({ message: "Item removed from cart", cart });
   } catch (error) {
-    res.status(500).json({ error: "Internal Server Error", details: error.message });
+    res
+      .status(500)
+      .json({ error: "Internal Server Error", details: error.message });
   }
 };
-
 
 // Clear the cart
 const clearCart = async (req) => {
@@ -98,9 +103,11 @@ const clearCart = async (req) => {
 // Checkout the cart
 const checkout = async (req, res) => {
   try {
-    const userId = res.locals.userId; 
+    const userId = res.locals.userId;
 
-    const cart = await Cart.findOne({ user_id: userId }).populate("items.product_id");
+    const cart = await Cart.findOne({ user_id: userId }).populate(
+      "items.product_id"
+    );
 
     if (!cart || cart.items.length === 0) {
       return res.status(400).json({ error: "Cart is empty" });
@@ -112,7 +119,7 @@ const checkout = async (req, res) => {
       0
     );
     const gst = total * 0.18; // Assuming GST is 18%
-
+    console.log("item", cart.items);
     // Create a new order
     const order = new Order({
       user_id: userId,
@@ -125,10 +132,10 @@ const checkout = async (req, res) => {
         price: item.product_id.mrp,
       })),
     });
+    console.log(order);
 
     await order.save();
 
-    // Clear the user's cart
     cart.items = [];
     await cart.save();
 
@@ -137,10 +144,11 @@ const checkout = async (req, res) => {
       order,
     });
   } catch (error) {
-    res.status(500).json({ error: "Internal Server Error", details: error.message });
+    res
+      .status(500)
+      .json({ error: "Internal Server Error", details: error.message });
   }
 };
-
 
 // Get cart details
 const getCartDetails = async (req, res) => {
@@ -148,8 +156,8 @@ const getCartDetails = async (req, res) => {
     const userId = res.locals.userId; // Extract user ID from middleware
 
     const cart = await Cart.findOne({ user_id: userId }).populate({
-      path: 'items.product_id',
-      select: 'itemName mrp stock image', // Specify fields to return for products
+      path: "items.product_id",
+      select: "itemName mrp stock image", // Specify fields to return for products
     });
 
     if (!cart || cart.items.length === 0) {
@@ -158,24 +166,25 @@ const getCartDetails = async (req, res) => {
 
     res.status(200).json({ message: "Cart retrieved successfully", cart });
   } catch (error) {
-    res.status(500).json({ error: "Internal Server Error", details: error.message });
+    res
+      .status(500)
+      .json({ error: "Internal Server Error", details: error.message });
   }
 };
-
 
 // Get user orders
 const getUserOrders = async (req, res) => {
   try {
-    const userId = res.locals.userId; 
+    const userId = res.locals.userId;
 
     const orders = await Order.find({ user_id: userId })
-      .populate({
-        path: 'cart_id',
-        populate: {
-          path: 'items.product_id',
-          select: 'itemName mrp',
-        },
-      })
+      // .populate({
+      //   path: "cart_id",
+      //   populate: {
+      //     path: "items.product_id",
+      //     select: "itemName mrp",
+      //   },
+      // })
       .sort({ createdAt: -1 });
 
     if (!orders || orders.length === 0) {
@@ -184,7 +193,9 @@ const getUserOrders = async (req, res) => {
 
     res.status(200).json({ message: "Orders retrieved successfully", orders });
   } catch (error) {
-    res.status(500).json({ error: "Internal Server Error", details: error.message });
+    res
+      .status(500)
+      .json({ error: "Internal Server Error", details: error.message });
   }
 };
 

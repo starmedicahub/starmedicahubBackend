@@ -32,7 +32,7 @@ const createProductCategory = async (req, res) => {
   try {
     const category = await productCategoryService.createProductCategory({
       ...req.body,
-      image: req.file.path,
+      // image: req.file.path,
     });
     res.status(201).json(category);
   } catch (error) {

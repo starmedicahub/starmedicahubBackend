@@ -7,13 +7,15 @@ const productSchema = new mongoose.Schema({
   mrp: { type: Number, required: true },
   ptr: { type: String, required: true },
   doctorCategory: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'DoctorCategory',
     required: true,
   },
   companyName: { type: String, required: true },
   sellerName: { type: String, required: true },
   productCategory: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'ProductCategory',
     required: true,
   },
   stock: { type: Number, required: true },
@@ -21,7 +23,7 @@ const productSchema = new mongoose.Schema({
   code: { type: Number, required: true },
   gst: { type: Number, required: true },
   hns: { type: String, required: true },
-  inv: { type: String, required: true },
+  inv: { type: String, required: false },
   createdAt: { type: Date, default: Date.now },
 });
 

@@ -32,7 +32,6 @@ const createDoctorCategory = async (req, res) => {
   try {
     const categoryData = {
       ...req.body,
-      image:req.file.path,
     };
     const category = await doctorCategoryService.createDoctorCategory(categoryData);
     res.status(201).json(category);

@@ -7,7 +7,12 @@ const getProductById = async (req, res) => {
   const search = req.query.search || "";
 
   try {
-    const products = await productService.getProductById(productId, fromDate, toDate, search);
+    const products = await productService.getProductById(
+      productId,
+      fromDate,
+      toDate,
+      search
+    );
     if (products.length > 0) {
       res.status(200).json(products);
     } else {
@@ -36,7 +41,7 @@ const updateProduct = async (req, res) => {
   try {
     const productData = {
       ...req.body,
-      image: req.file.path ? req.file.path:"",
+      image: req.file.path ? req.file.path : "",
     };
     const product = await productService.updateProduct(
       req.params.id,

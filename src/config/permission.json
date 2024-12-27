@@ -20,7 +20,7 @@
         "/product",
         "/cart",
         "/doctor",
-        "/product_filed"
+        "/product_filed/"
       ],
       "put": [
         "/user/:id",
@@ -52,22 +52,30 @@
         "/product_filed",
         "/user/",
         "/product/",
-        "/cart/",
         "/doctor/",
-        "/product_filed/",
-        "/orderhistory/getOrderHistory",
-        "/cart/orders"
+        "/product_filed/"
       ],
       "post": [
-      "/cart/add",
-      "/cart/checkout"
+        "/user",
+        "/product",
+        "/cart",
+        "/doctor",
+        "/product_filed"
       ],
       "put": [
-        "/cart/:id"
+        "/user/:id",
+        "/product/:id",
+        "/cart/:id",
+        "/doctor/:id",
+        "/product_filed/:id"
       ],
       "patch": [],
       "delete": [
-        "/cart/remove/:productId"
+        "/user/:id",
+        "/product/:id",
+        "/cart/:id",
+        "/doctor/:id",
+        "/product_filed/:id"
       ]
     }
   }

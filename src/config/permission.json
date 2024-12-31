@@ -20,7 +20,8 @@
         "/product",
         "/cart",
         "/doctor",
-        "/product_filed/"
+        "/product_filed/",
+        "/cart/add"
       ],
       "put": [
         "/user/:id",

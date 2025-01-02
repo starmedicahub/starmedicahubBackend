@@ -13,13 +13,16 @@
         "/user/",
         "/product/",
         "/doctor/",
-        "/product_filed/"
+        "/product_filed/",
+        "/cart/orders"
       ],
       "post": [
         "/user",
         "/product",
         "/cart",
+        "/cart/checkout",
         "/doctor",
+        "/product",
         "/product_filed/",
         "/cart/add"
       ],
@@ -54,7 +57,8 @@
         "/user/",
         "/product/",
         "/doctor/",
-        "/product_filed/"
+        "/product_filed/",
+        "/cart/orders"
       ],
       "post": [
         "/user",
@@ -62,7 +66,9 @@
         "/cart",
         "/doctor",
         "/cart/add",
-        "/product_filed"
+        "/product_filed",
+        "/cart/checkout",
+        "/product_filed/"
       ],
       "put": [
         "/user/:id",

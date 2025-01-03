@@ -39,7 +39,9 @@
         "/product/:id",
         "/cart/:id",
         "/doctor/:id",
-        "/product_filed/:id"
+        "/product_filed/:id",
+        "/cart/remove/:productId",
+        "/cart/clear"
       ]
     }
   },
@@ -83,7 +85,9 @@
         "/product/:id",
         "/cart/:id",
         "/doctor/:id",
-        "/product_filed/:id"
+        "/product_filed/:id",
+        "/cart/remove/:productId",
+        "/cart/clear"
       ]
     }
   }

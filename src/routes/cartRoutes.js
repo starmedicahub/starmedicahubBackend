@@ -20,4 +20,7 @@ router.post("/checkout", jwtHelper.verifyJwtToken, cartController.checkout);
 // Route to get all orders for a user
 router.get("/orders", jwtHelper.verifyJwtToken, cartController.getUserOrders);
 
+router.get("/orders/all", jwtHelper.verifyJwtToken, cartController.getAllOrdersGroupedByUser);
+
+
 module.exports = router;

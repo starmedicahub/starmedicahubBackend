@@ -10,17 +10,20 @@ const getProductById = async (id, fromDate, toDate, search, productCategoryId) =
 
     // Add search conditions if a search term is provided
     if (search) {
-      query.$or = [
-        { itemName: { $regex: search, $options: "i" } },
-        { about: { $regex: search, $options: "i" } },
-        { ptr: { $regex: search, $options: "i" } },
-        { doctorCategory: { $regex: search, $options: "i" } },
-        { companyName: { $regex: search, $options: "i" } },
-        { sellerName: { $regex: search, $options: "i" } },
-        { productCategory: { $regex: search, $options: "i" } },
-        { dis: { $regex: search, $options: "i" } },
-        { hns: { $regex: search, $options: "i" } },
-        { inv: { $regex: search, $options: "i" } },
+      const escapedSearch = search.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"); 
+      const regexSearch = { $regex: escapedSearch, $options: "i" };
+
+      query["$or"] = [
+        { itemName: regexSearch },
+        { about: regexSearch },
+        { ptr: regexSearch },
+        { doctorCategory: regexSearch },
+        { companyName: regexSearch },
+        { sellerName: regexSearch },
+        { productCategory: regexSearch },
+        { dis: regexSearch },
+        { hns: regexSearch },
+        { inv: regexSearch },
       ];
     }
 

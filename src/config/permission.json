@@ -14,7 +14,9 @@
         "/product/",
         "/doctor/",
         "/product_filed/",
-        "/cart/orders"
+        "/cart/orders",
+        "/orderHistory",
+        "/cart/orders/all"
       ],
       "post": [
         "/user",
@@ -24,7 +26,8 @@
         "/doctor",
         "/product",
         "/product_filed/",
-        "/cart/add"
+        "/cart/add",
+        "/orderHistory"
       ],
       "put": [
         "/user/:id",
@@ -60,7 +63,9 @@
         "/product/",
         "/doctor/",
         "/product_filed/",
-        "/cart/orders"
+        "/cart/orders",
+        "/orderHistory",
+        "/cart/orders/all"
       ],
       "post": [
         "/user",
@@ -70,7 +75,8 @@
         "/cart/add",
         "/product_filed",
         "/cart/checkout",
-        "/product_filed/"
+        "/product_filed/",
+        "/orderHistory"
       ],
       "put": [
         "/user/:id",

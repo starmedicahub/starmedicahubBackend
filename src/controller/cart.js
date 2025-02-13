@@ -177,14 +177,14 @@ const getUserOrders = async (req, res) => {
   try {
     const userId = res.locals.userId;
 
-    const orders = await Order.find({ user_id: userId })
-      // .populate({
-      //   path: "cart_id",
-      //   populate: {
-      //     path: "items.product_id",
-      //     select: "itemName mrp",
-      //   },
-      // })
+    const orders = await Order.find({ user_id : userId })
+      .populate({
+        path: "cart_id",
+        populate: {
+          path: "items.product_id",
+          select: "itemName mrp",
+        },
+      })
       .sort({ createdAt: -1 });
 
     if (!orders || orders.length === 0) {
@@ -199,6 +199,80 @@ const getUserOrders = async (req, res) => {
   }
 };
 
+const getAllOrdersGroupedByUser = async (req, res) => {
+  try {
+    const orders = await Order.aggregate([
+      {
+        $lookup: {
+          from: 'users',
+          localField: 'user_id',
+          foreignField: '_id',
+          as: 'userDetails'
+        }
+      },
+      {
+        $unwind: '$userDetails'
+      },
+      {
+        $unwind: '$items'
+      },
+      {
+        $lookup: {
+          from: 'products',
+          localField: 'items.product_id',
+          foreignField: '_id',
+          as: 'items.productDetails'
+        }
+      },
+      {
+        $unwind: '$items.productDetails'
+      },
+      {
+        $group: {
+          _id: '$_id',
+          user_id: { $first: '$user_id' },
+          user: { $first: '$userDetails' },
+          items: { $push: '$items' },
+          total: { $first: '$total' },
+          gst: { $first: '$gst' },
+          status: { $first: '$status' },
+          createdAt: { $first: '$createdAt' }
+        }
+      },
+      {
+        $group: {
+          _id: '$user_id',
+          user: { $first: '$user' },
+          orders: { $push: '$$ROOT' }
+        }
+      },
+      {
+        $project: {
+          'user.password': 0, // Exclude sensitive information
+          'user.__v': 0,
+          'user.hashPass': 0,
+          'user.saltPass': 0,
+          'user.createdId': 0,
+          'user.modifiedId': 0,
+          'orders.user': 0 // Exclude user details from each order
+        }
+      }
+    ]);
+
+    if (!orders || orders.length === 0) {
+      return res.status(404).json({ error: 'No orders found' });
+    }
+
+    res.status(200).json({ message: 'Orders retrieved successfully', orders });
+  } catch (error) {
+    res.status(500).json({ error: 'Internal Server Error', details: error.message });
+  }
+};
+
+
+
+
+
 // Export all functions
 module.exports = {
   addItemToCart,
@@ -207,4 +281,5 @@ module.exports = {
   checkout,
   getCartDetails,
   getUserOrders,
+  getAllOrdersGroupedByUser
 };

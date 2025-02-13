@@ -1,17 +1,16 @@
 const productService = require("../service/productService");
 
 const getProductById = async (req, res) => {
-  const productId = req.query.productId;
-  const fromDate = req.query.fromDate;
-  const toDate = req.query.toDate;
-  const search = req.query.search || "";
+  const { productId, fromDate, toDate, search, productCategoryId } = req.query;
+  console.log("Search Term:", search);
 
   try {
     const products = await productService.getProductById(
       productId,
       fromDate,
       toDate,
-      search
+      search,
+      productCategoryId
     );
     if (products.length > 0) {
       res.status(200).json(products);
@@ -19,7 +18,7 @@ const getProductById = async (req, res) => {
       res.status(404).json({ message: "No products found" });
     }
   } catch (error) {
-    console.error("Failed to retrieve products:", error);
+    console.error("Failed to retrieve products:", error); // Log full error
     res.status(500).json({ message: error.message });
   }
 };

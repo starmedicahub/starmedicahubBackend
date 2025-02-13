@@ -16,7 +16,8 @@
         "/product_filed/",
         "/cart/orders",
         "/orderHistory",
-        "/cart/orders/all"
+        "/cart/orders/user/:id",
+        "/cart/orders/:id/:id"
       ],
       "post": [
         "/user",
@@ -65,7 +66,9 @@
         "/product_filed/",
         "/cart/orders",
         "/orderHistory",
-        "/cart/orders/all"
+        "/cart/orders/all",
+        "/cart/orders/user/:user_id",
+        "/cart/orders/:user_id/:order_id"
       ],
       "post": [
         "/user",

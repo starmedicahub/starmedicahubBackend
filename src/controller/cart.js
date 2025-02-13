@@ -199,9 +199,12 @@ const getUserOrders = async (req, res) => {
   }
 };
 
-const getAllOrdersGroupedByUser = async (req, res) => {
+const   getOrdersByUserId = async (req, res) => {
   try {
+    const { user_id } = req.params;
+
     const orders = await Order.aggregate([
+      { $match: { user_id: new mongoose.Types.ObjectId(user_id) } },
       {
         $lookup: {
           from: 'users',
@@ -210,12 +213,48 @@ const getAllOrdersGroupedByUser = async (req, res) => {
           as: 'userDetails'
         }
       },
+      { $unwind: '$userDetails' },
       {
-        $unwind: '$userDetails'
+        $project: {
+          order_id: '$_id',
+          total: 1,
+          user_name: '$userDetails.name',
+          createdAt: 1
+        }
+      }
+    ]);
+
+    if (!orders.length) {
+      return res.status(404).json({ error: 'No orders found for this user' });
+    }
+
+    res.status(200).json({ message: 'Orders retrieved successfully', orders });
+  } catch (error) {
+    res.status(500).json({ error: 'Internal Server Error', details: error.message });
+  }
+};
+
+const getOrderDetails = async (req, res) => {
+  try {
+    const { user_id, order_id } = req.params;
+
+    const orders = await Order.aggregate([
+      {
+        $match: {
+          user_id: new mongoose.Types.ObjectId(user_id),
+          _id: new mongoose.Types.ObjectId(order_id)
+        }
       },
       {
-        $unwind: '$items'
+        $lookup: {
+          from: 'users',
+          localField: 'user_id',
+          foreignField: '_id',
+          as: 'userDetails'
+        }
       },
+      { $unwind: '$userDetails' },
+      { $unwind: '$items' },
       {
         $lookup: {
           from: 'products',
@@ -224,9 +263,7 @@ const getAllOrdersGroupedByUser = async (req, res) => {
           as: 'items.productDetails'
         }
       },
-      {
-        $unwind: '$items.productDetails'
-      },
+      { $unwind: '$items.productDetails' },
       {
         $group: {
           _id: '$_id',
@@ -240,38 +277,26 @@ const getAllOrdersGroupedByUser = async (req, res) => {
         }
       },
       {
-        $group: {
-          _id: '$user_id',
-          user: { $first: '$user' },
-          orders: { $push: '$$ROOT' }
-        }
-      },
-      {
         $project: {
-          'user.password': 0, // Exclude sensitive information
+          'user.password': 0,
           'user.__v': 0,
           'user.hashPass': 0,
           'user.saltPass': 0,
           'user.createdId': 0,
-          'user.modifiedId': 0,
-          'orders.user': 0 // Exclude user details from each order
+          'user.modifiedId': 0
         }
       }
     ]);
 
-    if (!orders || orders.length === 0) {
-      return res.status(404).json({ error: 'No orders found' });
+    if (!orders.length) {
+      return res.status(404).json({ error: 'Order not found' });
     }
 
-    res.status(200).json({ message: 'Orders retrieved successfully', orders });
+    res.status(200).json({ message: 'Order details retrieved successfully', order: orders[0] });
   } catch (error) {
     res.status(500).json({ error: 'Internal Server Error', details: error.message });
   }
 };
-
-
-
-
 
 // Export all functions
 module.exports = {
@@ -281,5 +306,6 @@ module.exports = {
   checkout,
   getCartDetails,
   getUserOrders,
-  getAllOrdersGroupedByUser
+  getOrdersByUserId,
+  getOrderDetails
 };

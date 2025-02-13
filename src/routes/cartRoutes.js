@@ -9,7 +9,11 @@ router.get("/", jwtHelper.verifyJwtToken, cartController.getCartDetails);
 // Route to add an item to the cart
 router.post("/add", jwtHelper.verifyJwtToken, cartController.addItemToCart);
 
-router.delete("/remove/:productId", jwtHelper.verifyJwtToken, cartController.removeItemFromCart);
+router.delete(
+  "/remove/:productId",
+  jwtHelper.verifyJwtToken,
+  cartController.removeItemFromCart
+);
 
 // Route to clear the cart
 router.delete("/clear", jwtHelper.verifyJwtToken, cartController.clearCart);
@@ -20,7 +24,15 @@ router.post("/checkout", jwtHelper.verifyJwtToken, cartController.checkout);
 // Route to get all orders for a user
 router.get("/orders", jwtHelper.verifyJwtToken, cartController.getUserOrders);
 
-router.get("/orders/all", jwtHelper.verifyJwtToken, cartController.getAllOrdersGroupedByUser);
-
+router.get(
+  "/orders/user/:user_id",
+  jwtHelper.verifyJwtToken,
+  cartController.getOrdersByUserId
+);
+router.get(
+  "/orders/:user_id/:order_id",
+  jwtHelper.verifyJwtToken,
+  cartController.getOrderDetails
+);
 
 module.exports = router;

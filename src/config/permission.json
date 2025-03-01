@@ -26,7 +26,7 @@
         "/cart/checkout",
         "/doctor",
         "/product",
-        "/product_filed/",
+        "/product_filed/data",
         "/cart/add",
         "/orderHistory"
       ],
@@ -79,6 +79,7 @@
         "/product_filed",
         "/cart/checkout",
         "/product_filed/",
+        "/product_filed/data",
         "/orderHistory"
       ],
       "put": [

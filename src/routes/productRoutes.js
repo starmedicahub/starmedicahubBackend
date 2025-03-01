@@ -6,9 +6,9 @@ const { upload } = require("../config/multer");
 
 router.get("/", jwtHelper.verifyJwtToken, productController.getProductById);
 router.post(
-  "/",
+  "/data",
   upload.single("image"),
-  jwtHelper.verifyJwtToken,
+  // jwtHelper.verifyJwtToken,
   productController.createProduct
 );
 router.put(

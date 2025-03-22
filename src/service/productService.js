@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 const getProductById = async (id, fromDate, toDate, search, productCategoryId) => {
   try {
     const query = {};
-
+    console.log("Query Params:", { id, fromDate, toDate, search, productCategoryId }); // Debugging purpose
     // Add filters based on provided parameters
     if (id) query._id = id;
     if (productCategoryId) query.productCategory = productCategoryId; // Ensure this is passed
@@ -47,8 +47,8 @@ const getProductById = async (id, fromDate, toDate, search, productCategoryId) =
 
     // Execute the query and populate related fields
     const products = await Product.find(query)
-      .populate("doctorCategory")
-      .populate("productCategory");
+      // .populate("doctorCategory")
+      // .populate("productCategory");
 
     return products;
   } catch (error) {

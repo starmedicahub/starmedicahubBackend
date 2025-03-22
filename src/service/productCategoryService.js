@@ -1,9 +1,15 @@
 const ProductCategory = require('../models/productCategoryModel');
-const getProductCategoryById = async (id, fromDate, toDate, search) => {
-  const query = { _id: id };
 
+const getProductCategoryById = async (id, fromDate, toDate, search , doctorId) => {
+  console.log("doctorId",search)
+  const query = {_id: id };
+  
   if (search) {
     query.name = { $regex: search, $options: 'i' };
+  }
+  
+  if (doctorId) {
+    query.doctorId = doctorId;
   }
 
   if (fromDate || toDate) {
@@ -19,12 +25,16 @@ const getProductCategoryById = async (id, fromDate, toDate, search) => {
   return await ProductCategory.findOne(query);
 };
 
-const getAllProductCategories = async (fromDate, toDate, search) => {
+const getAllProductCategories = async (fromDate, toDate, search, doctorId) => {
   const query = {};
 
   if (search) {
     query.name = { $regex: search, $options: 'i' };
   }
+
+  if (doctorId) {
+    query.doctorId = doctorId;
+  } 
 
   if (fromDate || toDate) {
     query.createdAt = {};

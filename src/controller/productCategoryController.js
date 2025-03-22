@@ -6,12 +6,13 @@ const getProductCategoryById = async (req, res) => {
   const fromDate = req.query.fromDate;
   const toDate = req.query.toDate;
   const search = req.query.search || "";
-
+  const doctorId = req.query.doctorId;
+  console.log("doctorId1",doctorId)
   try {
     let categories;
     if (categoryId) {
       // Fetch a specific category by ID
-      categories = await productCategoryService.getProductCategoryById(categoryId, fromDate, toDate, search);
+      categories = await productCategoryService.getProductCategoryById(categoryId, fromDate, toDate, search, doctorId);
       if (categories) {
         res.status(200).json(categories);
       } else {
@@ -19,7 +20,7 @@ const getProductCategoryById = async (req, res) => {
       }
     } else {
       // Fetch all categories based on filters
-      categories = await productCategoryService.getAllProductCategories(fromDate, toDate, search);
+      categories = await productCategoryService.getAllProductCategories(fromDate, toDate, search , doctorId);
       res.status(200).json(categories);
     }
   } catch (error) {

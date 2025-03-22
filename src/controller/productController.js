@@ -2,8 +2,6 @@ const productService = require("../service/productService");
 
 const getProductById = async (req, res) => {
   const { productId, fromDate, toDate, search, productCategoryId } = req.query;
-  console.log("Search Term:", search);
-
   try {
     const products = await productService.getProductById(
       productId,
